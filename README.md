@@ -59,7 +59,7 @@ Commande utilisée :
 
 frida-ps -Uai
 
-<img width="1100" height="531" alt="Capture d&#39;écran 2026-05-06 143544" src="https://github.com/user-attachments/assets/04e3d59a-95be-4068-b7d0-0b37145eadf0" />
+<img width="1601" height="983" alt="image" src="https://github.com/user-attachments/assets/748febe5-a2ac-4988-a6ec-836744a7b4c6" />
 
 Résultat obtenu :
 
