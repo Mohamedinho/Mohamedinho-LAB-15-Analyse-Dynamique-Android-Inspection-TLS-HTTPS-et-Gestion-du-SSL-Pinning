@@ -76,7 +76,7 @@ hello.js
 
 Contenu du script :
 
-<img width="1196" height="417" alt="588347384-fb05f33a-d898-46e2-9246-fec364711f1b" src="https://github.com/user-attachments/assets/e7483658-11e6-430c-8bac-af653ec188cb" />
+<img width="1673" height="940" alt="image" src="https://github.com/user-attachments/assets/ab8378f3-dd80-4b1c-ba06-10f514ce3361" />
 
 Commande utilisée :
 
