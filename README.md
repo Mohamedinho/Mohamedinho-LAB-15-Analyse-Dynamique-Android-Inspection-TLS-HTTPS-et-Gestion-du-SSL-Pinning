@@ -107,5 +107,145 @@ Dans l’émulateur Android, le réseau Wi-Fi a été configuré afin de redirig
 Chemin utilisé :
 Settings > Network & Internet > Wi-Fi > AndroidWifi > Edit
 
-<img width="977" height="664" alt="Capture d&#39;écran 2026-05-06 143956" src="https://github.com/user-attachments/assets/2fa2fa69-d194-43d4-bb1a-8094635ed064" />
+<img width="849" height="1852" alt="image" src="https://github.com/user-attachments/assets/f26cc9c0-5879-4f43-953a-b8e5e288bc92" />
 
+## 9. Téléchargement du certificat CA Burp
+
+Depuis le navigateur de l’émulateur Android, l’adresse suivante a été ouverte :
+
+http://burp
+
+<img width="365" height="169" alt="image" src="https://github.com/user-attachments/assets/32305954-6032-4d38-aea5-2806566482cc" />
+
+Cette page permet de télécharger le certificat CA généré par Burp Suite.
+
+Fichier téléchargé :
+
+## 10. Installation du certificat CA
+
+Le certificat CA a ensuite été installé depuis les paramètres de sécurité Android.
+
+Chemin utilisé :
+
+Settings > Security > Encryption & credentials > Install a certificate > CA certificate
+cacert.der
+
+<img width="407" height="298" alt="image" src="https://github.com/user-attachments/assets/9613b3c9-2e85-4de4-a9cd-3a2f873613ce" />
+
+Après l’installation, Android affiche le message suivant :
+
+CA certificate installed
+
+Cette étape permet à l’émulateur Android de faire confiance au certificat utilisé par Burp Suite pour intercepter le trafic HTTPS.
+
+## 11. Lancement du serveur InsecureBankv2
+
+L’application InsecureBankv2 nécessite un serveur backend local appelé AndroLabServer.
+
+
+## 12. Configuration du serveur dans InsecureBankv2
+
+Dans l’application InsecureBankv2, l’adresse du serveur backend a été configurée manuellement.
+
+Configuration utilisée :
+
+Server IP: 10.0.2.2
+Server Port: 8080
+
+<img width="899" height="1750" alt="image" src="https://github.com/user-attachments/assets/de253e97-3206-40c4-9b95-5a7b830f7863" />
+
+Cette configuration permet à l’application Android de communiquer avec le backend lancé sur la machine Windows.
+
+
+## 13. Connexion à l’application
+
+Après la configuration du serveur, une tentative de connexion a été effectuée depuis l’application InsecureBankv2.
+
+Après une connexion réussie, l’application affiche l’écran principal contenant les options suivantes :
+
+<img width="393" height="470" alt="image" src="https://github.com/user-attachments/assets/a65ef7e2-ac5e-4bee-a399-b9ca825faf8c" />
+
+Transfer
+View Statement
+Change Password
+Device not Rooted!!
+
+Cela confirme que l’application communique correctement avec le serveur backend.
+
+## 14. Script de bypass SSL pinning avec Frida
+
+Un script Frida a ensuite été utilisé afin d’installer plusieurs hooks liés à la gestion TLS/SSL.
+
+Fichier utilisé :
+
+sslpin_bypass_universal.js
+
+Commande utilisée :
+
+frida -U -f com.android.insecurebankv2 -l sslpin_bypass_universal.js
+
+<img width="1751" height="898" alt="image" src="https://github.com/user-attachments/assets/a4ff3c39-3640-4463-bec5-13f80c352baf" />
+
+Résultat obtenu :
+
+[+] Universal SSL Pinning Bypass chargé
+[+] Cible : com.android.insecurebankv2
+[+] SSL bypass: SSLContext.init patché
+[+] SSL bypass: TrustManagerImpl.verifyChain patché
+[-] OkHttp CertificatePinner non trouvé
+[+] SSL bypass: WebViewClient.onReceivedSslError patché
+[+] Hooks SSL installés
+
+Le message suivant n’est pas une erreur bloquante :
+
+OkHttp CertificatePinner non trouvé
+
+Cela signifie simplement que l’application ne semble pas utiliser la classe okhttp3.CertificatePinner. Les autres hooks SSL ont bien été chargés.
+
+## 15. Observation du trafic dans Burp Suite
+
+Après la configuration du proxy et l’utilisation de l’application, Burp Suite affiche les requêtes envoyées par InsecureBankv2 vers le serveur local.
+
+Dans Burp Suite :
+
+Proxy > HTTP history
+
+<img width="1872" height="385" alt="image" src="https://github.com/user-attachments/assets/9182b9e1-9b23-4ec2-837b-9f3827f43e15" />
+
+## 16. Détails de la requête login
+
+Dans l’onglet HTTP history de Burp Suite, la requête /login peut être inspectée en détail.
+
+<img width="1133" height="249" alt="image" src="https://github.com/user-attachments/assets/b8f8c39c-fd3f-4cca-aafe-876823e9eafc" />
+
+## 17. Résultat obtenu
+
+À la fin du lab, les éléments suivants ont été validés :
+
+Frida détecte correctement l’application InsecureBankv2.
+Un script Frida simple peut être injecté dans l’application.
+Burp Suite est configuré comme proxy sur le port 8080.
+L’émulateur Android utilise Burp Suite comme proxy.
+Le certificat CA de Burp Suite est installé sur Android.
+Le serveur backend InsecureBankv2 fonctionne sur le port 8888.
+L’application communique correctement avec le serveur backend.
+Les requêtes réseau sont visibles dans Burp Suite.
+Le script Frida de bypass SSL pinning est chargé correctement.
+
+## 18. Conclusion
+
+Ce lab a permis de réaliser une analyse dynamique Android complète sur l’application InsecureBankv2.
+
+Les principales étapes réalisées sont :
+
+Détection de l’application avec Frida.
+Injection d’un script Frida simple.
+Configuration de Burp Suite comme proxy.
+Installation du certificat CA Burp sur Android.
+Lancement du serveur backend InsecureBankv2.
+Configuration de l’application avec l’adresse IP du serveur.
+Connexion à l’application.
+Observation des requêtes réseau dans Burp Suite.
+Injection d’un script de bypass SSL pinning avec Frida.
+
+Ce lab montre comment combiner Frida et Burp Suite pour analyser le comportement réseau d’une application Android dans un environnement de test contrôlé.
