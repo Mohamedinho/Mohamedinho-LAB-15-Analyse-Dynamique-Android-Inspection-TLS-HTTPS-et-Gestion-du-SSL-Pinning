@@ -210,13 +210,13 @@ Dans Burp Suite :
 
 Proxy > HTTP history
 
-<img width="1872" height="385" alt="image" src="https://github.com/user-attachments/assets/9182b9e1-9b23-4ec2-837b-9f3827f43e15" />
+<img width="2138" height="736" alt="image" src="https://github.com/user-attachments/assets/27ccbc8c-9e7a-4098-84db-010408600855" />
 
 ## 16. Détails de la requête login
 
 Dans l’onglet HTTP history de Burp Suite, la requête /login peut être inspectée en détail.
 
-<img width="1133" height="249" alt="image" src="https://github.com/user-attachments/assets/b8f8c39c-fd3f-4cca-aafe-876823e9eafc" />
+<img width="1588" height="990" alt="image" src="https://github.com/user-attachments/assets/435add24-d9b1-4002-b710-ebc2ed0bd510" />
 
 ## 17. Résultat obtenu
 
